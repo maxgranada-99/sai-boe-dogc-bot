@@ -2,7 +2,6 @@ name: SAI - BOE/DOGC daily check
 
 on:
   schedule:
-    # GitHub Actions va en UTC. 06:30 UTC ≈ 07:30 a Catalunya (hivern)
     - cron: "30 6 * * 1-5"
   workflow_dispatch: {}
 
@@ -16,7 +15,6 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,25 +24,29 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Create output dirs
-        run: |
-          mkdir -p out/pdfs
-          mkdir -p state
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Run pipeline
-        run: |
-          node src/main.js
+      - name: Run bot
+        run: node main.js
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECURE: ${{ secrets.SMTP_SECURE }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
 
-      - name: Upload artifacts (emails + pdfs)
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: sai-output
           path: out/
           if-no-files-found: warn
 
-      - name: Commit updated state (seen.json)
+      - name: Commit updated state
         run: |
-          git status
-          git add state/seen.json || true
-          git commit -m "Update seen state" || echo "No changes to commit"
-          git push || echo "No push (no changes)"
+          git add data/state.json || true
+          git commit -m "Update state" || echo "No changes"
+          git push || echo "No push"
