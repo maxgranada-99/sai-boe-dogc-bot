@@ -25,6 +25,23 @@ function scoreItem(item, source = "es") {
     }
   }
 
+  function explainScore(item, source = "es") {
+  const text = (item.title || "").toLowerCase();
+  const cfg = filters[source];
+
+  const hitsInclude = cfg.include.filter(w =>
+    text.includes(w.toLowerCase())
+  );
+
+  const hitsExclude = cfg.exclude.filter(w =>
+    text.includes(w.toLowerCase())
+  );
+
+  let score = hitsInclude.length * 1 + hitsExclude.length * -3;
+
+  return { score, hitsInclude, hitsExclude };
+}
+
   // Restar punts per paraules excloses
   for (const word of cfg.exclude) {
     if (text.includes(word.toLowerCase())) {
@@ -58,12 +75,35 @@ async function run() {
 
   const newItems = boe.filter((it) => !seen.has(it.id)).slice(0, 10); // límit prudencial
   // Aplicar filtre (BOE = castellà)
-  const filteredItems = newItems.filter((it) => {
-    const score = scoreItem(it, "es");
-    return score >= filters.min_score;
-  });
+  const rejected = [];
+const kept = [];
+
+for (const it of newItems) {
+  const info = explainScore(it, "es");
+
+  if (info.score >= filters.min_score) {
+    it._score = info.score;
+    kept.push(it);
+  } else {
+    rejected.push({
+      title: it.title,
+      link: it.link,
+      score: info.score,
+      hitsInclude: info.hitsInclude,
+      hitsExclude: info.hitsExclude
+    });
+  }
+}
+
+const filteredItems = kept;
   if (filteredItems.length === 0 && !FORCE_SEND) {
     console.log("Cap novetat (BOE ayudas).");
+    fs.mkdirSync("out", { recursive: true });
+    fs.writeFileSync(
+      "out/rejected.json",
+      JSON.stringify(rejected, null, 2),
+      "utf-8"
+  );
     return;
   }
 
