@@ -68,7 +68,7 @@ async function run() {
   }
 
   // Per cada item nou: troba PDFs a la pàgina
-  for (const it of newItems) {
+  for (const it of filteredItems) {
     try {
       it.pdfs = await extractPdfLinksFromPage(it.link);
     } catch (e) {
@@ -79,7 +79,7 @@ async function run() {
 
   // Baixa PDFs i adjunta (límit: 8 adjunts)
   const attachments = [];
-  for (const it of newItems) {
+  for (const it of filteredItems) {
     for (const pdfUrl of (it.pdfs || [])) {
       if (attachments.length >= 8) break;
       try {
