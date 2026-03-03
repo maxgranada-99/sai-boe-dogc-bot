@@ -1,0 +1,15 @@
+{
+  "name": "sai-alertes-ajuts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Alertes diàries BOE/DOGC per a línies d'ajuts rellevants per al SAI (ACCIÓ).",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "fast-xml-parser": "^4.5.0",
+    "nodemailer": "^6.9.14"
+  }
+}
