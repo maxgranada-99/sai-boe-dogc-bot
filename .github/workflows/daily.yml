@@ -1,0 +1,50 @@
+name: SAI - BOE/DOGC daily check
+
+on:
+  schedule:
+    # GitHub Actions va en UTC. 06:30 UTC ≈ 07:30 a Catalunya (hivern)
+    - cron: "30 6 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sai-boe-dogc-daily
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Create output dirs
+        run: |
+          mkdir -p out/pdfs
+          mkdir -p state
+
+      - name: Run pipeline
+        run: |
+          node src/main.js
+
+      - name: Upload artifacts (emails + pdfs)
+        uses: actions/upload-artifact@v4
+        with:
+          name: sai-output
+          path: out/
+          if-no-files-found: warn
+
+      - name: Commit updated state (seen.json)
+        run: |
+          git status
+          git add state/seen.json || true
+          git commit -m "Update seen state" || echo "No changes to commit"
+          git push || echo "No push (no changes)"
