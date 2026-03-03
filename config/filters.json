@@ -1,0 +1,49 @@
+{
+  "min_score": 3,
+  "es": {
+    "include": [
+      "empresa", "empresas", "pyme", "pymes",
+      "industrial", "reindustrialización",
+      "I+D", "innovación",
+      "digitalización",
+      "energía", "eficiencia energética",
+      "internacionalización",
+      "inversión"
+    ],
+    "exclude": [
+      "beca", "becas",
+      "premio", "premios",
+      "estudiantes",
+      "personas físicas",
+      "entidades locales",
+      "ayuntamiento", "ayuntamientos",
+      "diputación", "diputaciones",
+      "asociaciones",
+      "fundaciones",
+      "sin ánimo de lucro"
+    ]
+  },
+  "ca": {
+    "include": [
+      "empresa", "empreses", "pime", "pimes",
+      "industrial", "reindustrialització",
+      "R+D", "innovació",
+      "digitalització",
+      "energia", "eficiència energètica",
+      "internacionalització",
+      "inversió"
+    ],
+    "exclude": [
+      "beca", "beques",
+      "premi", "premis",
+      "alumnat",
+      "persones físiques",
+      "entitats locals",
+      "ajuntament", "ajuntaments",
+      "diputació", "diputacions",
+      "associacions",
+      "fundacions",
+      "sense ànim de lucre"
+    ]
+  }
+}
