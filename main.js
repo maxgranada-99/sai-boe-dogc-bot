@@ -4,6 +4,7 @@ import { getBoeAyudasItems } from "./src/sources/boe_ayudas.js";
 import { extractPdfLinksFromPage } from "./src/boe_extract_pdfs.js";
 import { fetchBuffer } from "./src/http.js";
 import { buildBody, buildSubject, sendMail } from "./src/email.js";
+const FORCE_SEND = String(process.env.FORCE_SEND || "false").toLowerCase() === "true";
 
 function todayMadridISO() {
   // Acció simple: data “d’avui” segons runner (ja ho fixarem si vols amb TZ)
@@ -27,7 +28,7 @@ async function run() {
   const boe = await getBoeAyudasItems();
 
   const newItems = boe.filter((it) => !seen.has(it.id)).slice(0, 10); // límit prudencial
-  if (newItems.length === 0) {
+  if (newItems.length === 0 && !FORCE_SEND) {
     console.log("Cap novetat (BOE ayudas).");
     return;
   }

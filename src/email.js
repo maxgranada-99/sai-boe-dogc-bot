@@ -45,7 +45,8 @@ export async function sendMail({ subject, text, attachments }) {
     host: SMTP_HOST,
     port: Number(SMTP_PORT),
     secure: String(SMTP_SECURE || "false").toLowerCase() === "true",
-    auth: { user: SMTP_USER, pass: SMTP_PASS }
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
+    requireTLS: true
   });
 
   await transporter.sendMail({
