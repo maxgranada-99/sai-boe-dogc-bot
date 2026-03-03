@@ -1,4 +1,4 @@
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { fetchText } from "./http.js";
 
 export async function extractPdfLinksFromPage(url) {
