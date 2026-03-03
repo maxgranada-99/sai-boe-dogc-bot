@@ -65,6 +65,37 @@ function sanitizeFilename(name) {
   return name.replace(/[<>:"/\\|?*\x00-\x1F]/g, "_").slice(0, 180);
 }
 
+function scoreItem(item, source = "es") {
+  const text = (item.title || "").toLowerCase();
+  const cfg = filters[source];
+
+  let score = 0;
+
+  for (const word of cfg.include) {
+    if (text.includes(word.toLowerCase())) score += 1;
+  }
+
+  for (const word of cfg.exclude) {
+    if (text.includes(word.toLowerCase())) score -= 3;
+  }
+
+  return score;
+}
+
+function explainScore(item, source = "es") {
+  const text = (item.title || "").toLowerCase();
+  const cfg = filters[source];
+
+  const hitsInclude = cfg.include.filter((w) =>
+    text.includes(w.toLowerCase())
+  );
+  const hitsExclude = cfg.exclude.filter((w) =>
+    text.includes(w.toLowerCase())
+  );
+
+  const score = hitsInclude.length * 1 + hitsExclude.length * -3;
+  return { score, hitsInclude, hitsExclude };
+}
 async function run() {
   const dateStr = todayMadridISO();
 
