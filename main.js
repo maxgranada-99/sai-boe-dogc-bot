@@ -94,7 +94,8 @@ async function run() {
   const filteredItems = [];
 
   for (const it of newItems) {
-    const info = explainScore(it, "es");
+    const lang = it.lang || (it.source === "dogc" ? "ca" : "es");
+    const info = explainScore(it, lang);
 
     if (info.score >= filters.min_score) {
       it._score = info.score;
