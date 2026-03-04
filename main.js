@@ -5,6 +5,7 @@ import { getBoeAyudasItems } from "./src/sources/boe_ayudas.js";
 import { extractPdfLinksFromPage } from "./src/boe_extract_pdfs.js";
 import { fetchBuffer } from "./src/http.js";
 import { buildBody, buildSubject, sendMail } from "./src/email.js";
+import { getDogcItems } from "./src/sources/dogc_search.js";
 
 const FORCE_SEND =
   String(process.env.FORCE_SEND || "false").toLowerCase() === "true";
@@ -66,10 +67,14 @@ async function run() {
   const seen = new Set(state.seen || []);
 
   const boe = await getBoeAyudasItems();
+  const dogc = await getDogcItems();
 
-  const newItems = boe
-    .filter((it) => !seen.has(it.id))
-    .slice(0, 10);
+  const combined = [
+  ...boe.map((it) => ({ ...it, source: "boe" })),
+  ...dogc.map((it) => ({ ...it, source: "dogc" }))
+];
+
+  const newItems = combined.filter((it) => !seen.has(it.id)).slice(0, 20);
 
   const rejected = [];
   const filteredItems = [];
