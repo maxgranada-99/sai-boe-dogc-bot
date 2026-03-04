@@ -1,5 +1,5 @@
 {
-  "min_score": 3,
+  "min_score": 1,
   "es": {
     "include": [
       "empresa", "empresas", "pyme", "pymes",
@@ -8,7 +8,11 @@
       "digitalización",
       "energía", "eficiencia energética",
       "internacionalización",
-      "inversión"
+      "inversión",
+      "subvención",
+      "subvenciones",
+      "convocatoria",
+      "convocatorias"
     ],
     "exclude": [
       "beca", "becas",
