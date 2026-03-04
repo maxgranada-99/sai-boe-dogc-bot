@@ -21,7 +21,15 @@ export async function getDogcItems({ daysBack = 2, limit = 50 } = {}) {
     `$order=${encodeURIComponent("data_publicacio DESC")}`
   ].join("&");
 
-  const rows = await fetchJson(url);
+  console.log("[DOGC] url:", url);
+  
+  let rows = [];
+  try {
+    rows = await fetchJson(url);
+}   catch (e) {
+    console.warn("[DOGC] fetch failed:", e.message);
+    return [];
+}
 
   const cutoff = new Date(fromStr + "T00:00:00.000Z").getTime();
 
