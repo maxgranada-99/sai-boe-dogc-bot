@@ -1,0 +1,20 @@
+{
+  "queries": [
+    "subvencions empreses",
+    "ajuts empreses",
+    "bases reguladores subvencions",
+    "convocatòria subvencions",
+    "ajuts indústria",
+    "reindustrialització",
+    "R+D",
+    "innovació",
+    "digitalització",
+    "internacionalització",
+    "energia",
+    "autoconsum",
+    "hidrogen",
+    "bateria",
+    "descarbonització"
+  ],
+  "max_items_per_query": 10
+}
