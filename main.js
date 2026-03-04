@@ -70,6 +70,9 @@ async function run() {
   const boe = await getBoeAyudasItems();
   const dogc = await getDogcItems();
 
+  console.log("[DOGC] items trobats:", dogc.length);
+  if (dogc.length) console.log("[DOGC] primer item:", dogc[0].title);
+
   const combined = [
   ...boe.map((it) => ({ ...it, source: "boe" })),
   ...dogc.map((it) => ({ ...it, source: "dogc" }))
