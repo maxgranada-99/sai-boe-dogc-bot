@@ -18,11 +18,19 @@ export async function getDogcItems({ daysBack = 2, limit = 50 } = {}) {
   `${BASE}?` +
   [
     `$limit=${encodeURIComponent(String(limit))}`,
-    `$order=${encodeURIComponent("data_publicacio DESC")}`,
-    `$where=${encodeURIComponent(`data_publicacio >= '${fromStr}T00:00:00.000'`)}`,
+    `$order=${encodeURIComponent("data_publicacio DESC")}`
   ].join("&");
 
   const rows = await fetchJson(url);
+
+  const cutoff = new Date(fromStr + "T00:00:00.000Z").getTime();
+
+  const recentRows = rows.filter((r) => {
+    const raw = r.data_publicacio || r.data || r.date;
+    if (!raw) return false;
+    const t = Date.parse(raw);
+    return Number.isFinite(t) && t >= cutoff;
+});
 
   return rows
     .map((r) => {
