@@ -66,8 +66,19 @@ async function run() {
   const state = loadState();
   const seen = new Set(state.seen || []);
 
-  const boe = await getBoeAyudasItems();
-  const dogc = await getDogcItems();
+  let boe = [];
+  try {
+    boe = await getBoeAyudasItems();
+  } catch (e) {
+    console.warn("[BOE] fetch failed:", e.message);
+  }
+
+  let dogc = [];
+  try {
+    dogc = await getDogcItems();
+  } catch (e) {
+    console.warn("[DOGC] fetch failed:", e.message);
+  }
 
   console.log("[DOGC] items trobats:", dogc.length);
   if (dogc.length) console.log("[DOGC] primer item:", dogc[0].title);
