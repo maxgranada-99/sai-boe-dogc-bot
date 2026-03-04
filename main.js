@@ -6,6 +6,7 @@ import { extractPdfLinksFromPage } from "./src/boe_extract_pdfs.js";
 import { fetchBuffer } from "./src/http.js";
 import { buildBody, buildSubject, sendMail } from "./src/email.js";
 import { getDogcItems } from "./src/sources/dogc_search.js";
+import { getDogcItems } from "./src/sources/dogc_opendata.js";
 
 const FORCE_SEND =
   String(process.env.FORCE_SEND || "false").toLowerCase() === "true";
