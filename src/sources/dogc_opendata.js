@@ -18,7 +18,6 @@ export async function getDogcItems({ daysBack = 2, limit = 50 } = {}) {
   `${BASE}?` +
   [
     `$limit=${encodeURIComponent(String(limit))}`,
-    `$order=${encodeURIComponent("data_publicacio DESC")}`
   ].join("&");
 
   console.log("[DOGC] url:", url);
@@ -26,6 +25,7 @@ export async function getDogcItems({ daysBack = 2, limit = 50 } = {}) {
   let rows = [];
   try {
     rows = await fetchJson(url);
+    console.log("[DOGC] keys sample:", rows?.[0] ? Object.keys(rows[0]).slice(0, 30) : []);
 }   catch (e) {
     console.warn("[DOGC] fetch failed:", e.message);
     return [];
