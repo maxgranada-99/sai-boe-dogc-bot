@@ -15,12 +15,12 @@ export async function getDogcItems({ daysBack = 2, limit = 50 } = {}) {
   const fromStr = isoDate(from);
 
   const url =
-    `${BASE}?` +
-    [
-      `$limit=${encodeURIComponent(String(limit))}`,
-      `$order=${encodeURIComponent("data_publicacio DESC")}`,
-      `$where=${encodeURIComponent(`data_publicacio >= '${fromStr}'`)}`,
-    ].join("&");
+  `${BASE}?` +
+  [
+    `$limit=${encodeURIComponent(String(limit))}`,
+    `$order=${encodeURIComponent("data_publicacio DESC")}`,
+    `$where=${encodeURIComponent(`data_publicacio >= '${fromStr}T00:00:00.000'`)}`,
+  ].join("&");
 
   const rows = await fetchJson(url);
 
