@@ -1,5 +1,5 @@
 {
-  "min_score": 1,
+  "min_score": 2,
   "es": {
     "include": [
       "empresa", "empresas", "pyme", "pymes",
@@ -24,7 +24,13 @@
       "diputación", "diputaciones",
       "asociaciones",
       "fundaciones",
-      "sin ánimo de lucro"
+      "sin ánimo de lucro",
+      "universidad", "universidades",
+      "personas desempleadas", "desempleadas",
+      "menores de 30", "jóvenes",
+      "entidades asociativas", "asociativas",
+      "sector agrario", "agrario", "alimentario",
+      "programa"
     ]
   },
   "ca": {
